@@ -199,7 +199,7 @@ function Index() {
 
 /* ---------------- 1. HERO SECTION ---------------- */
 function Hero() {
-  const premiumEase = [0.22, 1, 0.36, 1];
+  const premiumEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
