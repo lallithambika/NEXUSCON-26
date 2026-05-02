@@ -134,7 +134,7 @@ export default function Nav() {
             <span className={`block w-5 h-0.5 bg-[#4A3267] rounded transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
           </button>
         </div>
-      </div>
+      </nav>
 
       {/* Mobile Menu */}
       <div
