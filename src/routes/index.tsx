@@ -464,10 +464,10 @@ function TrackRecord() {
 function Speakers() {
   const base = import.meta.env.BASE_URL;
   const speakers = [
-    { name: "Mohamed Azarudeen Z", role: "Cloud & DevOps Expert", image: `${base}azar.jpg` },
-    { name: "Vinodh Kumar", role: "Solutions Architect", image: `${base}vinodh.jpg` },
-    { name: "Speaker #03", role: "Coming Soon", image: `${base}tbd.jpg` },
-    { name: "Speaker #04", role: "Coming Soon", image: `${base}tbd.jpg` },
+    { name: "Mohamed Azarudeen Z", role: "Cloud & DevOps Expert", image: `${base}images/speakers/azar.jpg` },
+    { name: "Vinodh Kumar", role: "Solutions Architect", image: `${base}images/speakers/vinodh.jpg` },
+    { name: "Speaker #03", role: "Coming Soon", image: `${base}images/speakers/tbd.jpg` },
+    { name: "Speaker #04", role: "Coming Soon", image: `${base}images/speakers/tbd.jpg` },
   ];
 
   return (

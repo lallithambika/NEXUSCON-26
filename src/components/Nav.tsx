@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
   { href: "#top", label: "Home" },
@@ -15,6 +15,8 @@ export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("top");
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  const base = import.meta.env.BASE_URL;
 
   useEffect(() => {
     gsap.fromTo(navRef.current,
@@ -66,7 +68,7 @@ export default function Nav() {
         <a href="#top" className="flex items-center gap-2.5 flex-shrink-0 group px-2">
           <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 bg-white shadow-md ring-2 ring-white/40 group-hover:scale-105 transition-transform duration-300">
             <img
-              src={`${import.meta.env.BASE_URL}logo.png`}
+              src={`${base}images/logo.png?v=2`}
               alt="TechNexus Community"
               className="w-full h-full object-contain"
               onError={(e) => {
@@ -86,37 +88,33 @@ export default function Nav() {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-0.5 relative">
-          {/* Active indicator pill */}
-          <motion.div
-            className="absolute h-9 bg-gradient-to-r from-[#DE638A] to-[#4A3267] rounded-full shadow-lg z-0"
-            animate={{
-              x: indicatorStyle.x,
-              width: indicatorStyle.width,
-              opacity: indicatorStyle.opacity
-            }}
-            transition={{ type: "spring", stiffness: 350, damping: 30 }}
-          />
-          
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              data-nav-item={item.href}
-              className={`relative z-10 px-5 py-2 text-[11px] font-black uppercase tracking-widest transition-colors duration-300 rounded-full ${
-                activeSection === item.href.substring(1) 
-                  ? "text-white" 
-                  : "text-[#4A3267]/60 hover:text-[#4A3267]"
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const isActive = activeSection === item.href.substring(1);
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                className={`relative px-5 py-2 text-[11px] font-black uppercase tracking-widest transition-colors duration-300 rounded-full ${
+                  isActive ? "text-white" : "text-[#4A3267]/60 hover:text-[#4A3267]"
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="navIndicator"
+                    className="absolute inset-0 bg-gradient-to-r from-[#DE638A] to-[#4A3267] rounded-full shadow-lg -z-10"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
+                {item.label}
+              </a>
+            );
+          })}
         </div>
 
         {/* CTAs */}
         <div className="flex items-center gap-2">
           <a
-            href={`${import.meta.env.BASE_URL}prospectus.pdf`}
+            href={`${base}docs/prospectus.pdf`}
             download
             className="hidden sm:flex items-center justify-center px-5 py-2 text-[10px] font-black uppercase tracking-widest text-[#4A3267] hover:text-[#DE638A] transition-colors border border-[#4A3267]/10 rounded-full bg-white/20 hover:bg-white/40"
           >
@@ -131,7 +129,7 @@ export default function Nav() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(o => !o)}
-            className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-full bg-[#4A3267]/10"
+            className="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-full bg-[#4A3267]/10"
           >
             <span className={`block w-5 h-0.5 bg-[#4A3267] rounded transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
             <span className={`block w-5 h-0.5 bg-[#4A3267] rounded transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
@@ -170,4 +168,3 @@ export default function Nav() {
     </div>
   );
 }
-
