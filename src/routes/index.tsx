@@ -200,32 +200,23 @@ function Index() {
 /* ---------------- 1. HERO SECTION ---------------- */
 function Hero() {
   const premiumEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const scale = useTransform(scrollY, [0, 300], [1, 0.95]);
+  const base = import.meta.env.BASE_URL;
 
   return (
     <section className="relative h-[100svh] overflow-hidden">
-      {/* 🧊 Center Glass Card with floating oscillation & Parallax */}
+      {/* 🧊 Center Glass Card */}
       <div className="relative z-10 flex items-center justify-center h-full px-4">
         <motion.div
-          style={{ y: y1, opacity, scale, willChange: "transform, opacity" }}
           initial={{ opacity: 0, y: 60, filter: "blur(10px)" }}
           animate={{ 
             opacity: 1, 
-            y: [0, -15, 0], // Floating motion (will be added to parallax via style.y)
+            y: 0,
             filter: "blur(0px)" 
           }}
           transition={{ 
             opacity: { duration: 1.2, delay: 0.2 },
             filter: { duration: 1.0, delay: 0.2 },
-            y: { 
-              duration: 4, 
-              ease: "easeInOut", 
-              repeat: Infinity, 
-              repeatType: "mirror" 
-            }
+            y: { duration: 1.2, delay: 0.2, ease: premiumEase }
           }}
           className="backdrop-blur-[20px] bg-white/25 border border-white/40 rounded-3xl shadow-[0_10px_40px_rgba(74,50,103,0.15)] p-8 md:p-14 w-full md:w-[70%] max-w-[900px] text-center"
         >
@@ -471,11 +462,12 @@ function TrackRecord() {
 
 /* ---------------- 7. SPEAKERS ---------------- */
 function Speakers() {
+  const base = import.meta.env.BASE_URL;
   const speakers = [
-    { name: "Mohamed Azarudeen Z", role: "Cloud & DevOps Expert", image: "/azar.jpg" },
-    { name: "Vinodh Kumar", role: "Solutions Architect", image: "/vinodh.jpg" },
-    { name: "Speaker #03", role: "Coming Soon", image: "/tbd.jpg" },
-    { name: "Speaker #04", role: "Coming Soon", image: "/tbd.jpg" },
+    { name: "Mohamed Azarudeen Z", role: "Cloud & DevOps Expert", image: `${base}azar.jpg` },
+    { name: "Vinodh Kumar", role: "Solutions Architect", image: `${base}vinodh.jpg` },
+    { name: "Speaker #03", role: "Coming Soon", image: `${base}tbd.jpg` },
+    { name: "Speaker #04", role: "Coming Soon", image: `${base}tbd.jpg` },
   ];
 
   return (
@@ -517,21 +509,7 @@ function Speakers() {
         ))}
       </div>
 
-      <div className="h-[600px] w-full relative opacity-40 hover:opacity-100 transition-opacity duration-1000">
-        <CircularGallery 
-          bend={2} 
-          textColor="#4A3267" 
-          borderRadius={0.1}
-          items={[
-            { image: "/azar.jpg", text: "Mohamed Azarudeen Z | Speaker" },
-            { image: "/vinodh.jpg", text: "Vinodh Kumar | Speaker #HIRING" },
-            { image: "/tbd.jpg", text: "Announcement | TBD" },
-            { image: "/tbd.jpg", text: "Announcement | TBD" },
-            { image: "/tbd.jpg", text: "Announcement | TBD" },
-            { image: "/tbd.jpg", text: "Announcement | TBD" },
-          ]}
-        />
-      </div>
+
     </section>
   );
 }

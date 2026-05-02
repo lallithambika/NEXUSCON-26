@@ -66,56 +66,59 @@ export default function Nav() {
         <a href="#top" className="flex items-center gap-2.5 flex-shrink-0 group px-2">
           <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 bg-white shadow-md ring-2 ring-white/40 group-hover:scale-105 transition-transform duration-300">
             <img
-              src="/logo.png"
+              src={`${import.meta.env.BASE_URL}logo.png`}
               alt="TechNexus Community"
               className="w-full h-full object-contain"
               onError={(e) => {
                 const target = e.currentTarget;
                 target.style.display = "none";
                 if (target.parentElement) {
-                  target.parentElement.style.background = "linear-gradient(135deg, #DE638A, #4A3267)";
-                  target.parentElement.innerHTML = `<span style="color:white;font-weight:900;font-size:0.9rem;display:flex;align-items:center;justify-content:center;width:100%;height:100%">N</span>`;
+                  target.parentElement.innerHTML = '<div class="w-full h-full bg-[#DE638A] flex items-center justify-center text-white font-bold text-lg">N</div>';
                 }
               }}
             />
           </div>
-          <div className="leading-tight hidden sm:block">
-            <div className="font-black text-sm tracking-tight text-[#4A3267]">TECHNEXUS</div>
-            <div className="font-bold text-[8px] tracking-[0.2em] text-[#DE638A] uppercase">Community</div>
+          <div className="flex flex-col">
+            <span className="text-[13px] font-black tracking-tight text-[#4A3267] uppercase leading-none">NexusCon</span>
+            <span className="text-[9px] font-bold tracking-[0.1em] text-[#DE638A] uppercase leading-none mt-0.5">Bengaluru '26</span>
           </div>
         </a>
 
-        {/* Desktop Nav Links */}
-        <div className="hidden md:flex items-center gap-1 bg-[#4A3267]/5 rounded-full p-1 relative">
-          {navItems.map((item) => {
-            const isActive = activeSection === item.href.substring(1);
-            return (
-              <a
-                key={item.href}
-                href={item.href}
-                className={`relative px-5 py-2 text-[11px] font-bold transition-all duration-500 rounded-full uppercase tracking-widest ${
-                  isActive ? "text-white" : "text-[#4A3267]/60 hover:text-[#4A3267]"
-                }`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="activePill"
-                    className="absolute inset-0 bg-gradient-to-br from-[#DE638A] to-[#4A3267] rounded-full -z-10 shadow-lg shadow-[#DE638A]/20"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-                {item.label}
-              </a>
-            );
-          })}
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-0.5 relative">
+          {/* Active indicator pill */}
+          <motion.div
+            className="absolute h-9 bg-gradient-to-r from-[#DE638A] to-[#4A3267] rounded-full shadow-lg z-0"
+            animate={{
+              x: indicatorStyle.x,
+              width: indicatorStyle.width,
+              opacity: indicatorStyle.opacity
+            }}
+            transition={{ type: "spring", stiffness: 350, damping: 30 }}
+          />
+          
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              data-nav-item={item.href}
+              className={`relative z-10 px-5 py-2 text-[11px] font-black uppercase tracking-widest transition-colors duration-300 rounded-full ${
+                activeSection === item.href.substring(1) 
+                  ? "text-white" 
+                  : "text-[#4A3267]/60 hover:text-[#4A3267]"
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
 
-        {/* CTA + Mobile Toggle */}
+        {/* CTAs */}
         <div className="flex items-center gap-2">
           <a
-            href="/prospectus.pdf"
+            href={`${import.meta.env.BASE_URL}prospectus.pdf`}
             download
-            className="hidden lg:flex items-center px-5 py-2.5 rounded-full border border-[#4A3267]/20 text-[#4A3267] font-mono font-bold text-[10px] uppercase tracking-widest hover:bg-[#4A3267] hover:text-white transition-all duration-300"
+            className="hidden sm:flex items-center justify-center px-5 py-2 text-[10px] font-black uppercase tracking-widest text-[#4A3267] hover:text-[#DE638A] transition-colors border border-[#4A3267]/10 rounded-full bg-white/20 hover:bg-white/40"
           >
             Download Prospectus
           </a>
