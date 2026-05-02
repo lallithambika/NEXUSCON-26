@@ -45,16 +45,6 @@ import BorderGlow from "@/components/BorderGlow";
 const Hero3D = lazy(() => import("@/components/Hero3D"));
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "NexusCon Bengaluru '26 — India's Tech Community Converges" },
-      {
-        name: "description",
-        content:
-          "A premium conference experience focused on AI, Cloud, DevTools, and future technologies. June 2026, Bengaluru.",
-      },
-    ],
-  }),
   component: Index,
 });
 
