@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { motion, AnimatePresence } from "framer-motion";
+import { Volume2, VolumeX } from "lucide-react";
+import { useSound } from "@/context/SoundContext";
 
 const navItems = [
   { href: "#top", label: "Home" },
@@ -11,6 +13,7 @@ const navItems = [
 ];
 
 export default function Nav() {
+  const { isSoundEnabled, toggleSound, playHover, playClick } = useSound();
   const navRef = useRef<HTMLDivElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("top");
@@ -65,7 +68,12 @@ export default function Nav() {
         className="flex items-center justify-between px-3 py-2 rounded-full border border-white/30 shadow-[0_8px_32px_rgba(74,50,103,0.15)] bg-white/40 backdrop-blur-xl"
       >
         {/* Logo Section */}
-        <a href="#top" className="flex items-center gap-2.5 flex-shrink-0 group px-2">
+        <a 
+          href="#top" 
+          onMouseEnter={() => playHover()}
+          onClick={() => playClick()}
+          className="flex items-center gap-2.5 flex-shrink-0 group px-2"
+        >
           <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 bg-white shadow-md ring-2 ring-white/40 group-hover:scale-105 transition-transform duration-300">
             <img
               src={`${base}images/logo.png?v=2`}
@@ -94,6 +102,8 @@ export default function Nav() {
               <a
                 key={item.href}
                 href={item.href}
+                onMouseEnter={() => playHover()}
+                onClick={() => playClick()}
                 className={`relative px-5 py-2 text-[11px] font-black uppercase tracking-widest transition-colors duration-300 rounded-full ${
                   isActive ? "text-white" : "text-[#4A3267]/60 hover:text-[#4A3267]"
                 }`}
@@ -113,22 +123,37 @@ export default function Nav() {
 
         {/* CTAs */}
         <div className="flex items-center gap-2">
+          {/* Sound Toggle */}
+          <button
+            onClick={() => { toggleSound(); playClick(); }}
+            onMouseEnter={() => playHover()}
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-[#4A3267] transition-all border border-white/30"
+            title={isSoundEnabled ? "Mute Sounds" : "Enable Sounds"}
+          >
+            {isSoundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
+          </button>
+
           <a
             href={`${base}docs/prospectus.pdf`}
             download
+            onMouseEnter={() => playHover()}
+            onClick={() => playClick()}
             className="hidden sm:flex items-center justify-center px-5 py-2 text-[10px] font-black uppercase tracking-widest text-[#4A3267] hover:text-[#DE638A] transition-colors border border-[#4A3267]/10 rounded-full bg-white/20 hover:bg-white/40"
           >
             Download Prospectus
           </a>
           <a
             href="#waitlist"
+            onMouseEnter={() => playHover()}
+            onClick={() => playClick()}
             className="hidden md:flex items-center px-6 py-2.5 rounded-full bg-[#4A3267] text-white font-bold text-[10px] uppercase tracking-widest hover:bg-[#DE638A] hover:scale-105 transition-all duration-300"
           >
             Join Waitlist
           </a>
           {/* Mobile hamburger */}
           <button
-            onClick={() => setMobileOpen(o => !o)}
+            onClick={() => { setMobileOpen(o => !o); playClick(); }}
+            onMouseEnter={() => playHover()}
             className="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-full bg-[#4A3267]/10"
           >
             <span className={`block w-5 h-0.5 bg-[#4A3267] rounded transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />

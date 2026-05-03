@@ -39,9 +39,11 @@ import Carousel from "@/components/Carousel";
 import MagicBento from "@/components/MagicBento";
 import TargetCursor from "@/components/TargetCursor";
 import StatCard from "@/components/StatCard";
-import CircularGallery from "@/components/CircularGallery";
+import LogoLoop from "@/components/LogoLoop";
 import StarBorder from "@/components/StarBorder";
 import BorderGlow from "@/components/BorderGlow";
+import PastGlimpse from "@/sections/PastGlimpse";
+import { SoundProvider, useSound } from "@/context/SoundContext";
 const Hero3D = lazy(() => import("@/components/Hero3D"));
 
 export const Route = createFileRoute("/")({
@@ -76,8 +78,9 @@ function Index() {
   }, [showIntro]);
 
   return (
-    <SmoothScroll>
-      <TargetCursor targetSelector=".cursor-target" />
+    <SoundProvider>
+      <SmoothScroll>
+        <TargetCursor targetSelector=".cursor-target" />
       <div id="top" className="relative min-h-screen overflow-x-hidden text-deep-violet">
         <div className="noise-overlay" />
         <AnimatePresence mode="wait">
@@ -181,11 +184,13 @@ function Index() {
                   </section>
 
                   <Stats />
+                  <PreviousSponsors />
                   <TrackRecord />
                   <Speakers />
                   <WhySponsor />
                   <Testimonials />
                   <Packages />
+                  <PastGlimpse />
                   <FinalCTA />
                 </div>
               </div>
@@ -193,7 +198,8 @@ function Index() {
           )}
         </AnimatePresence>
       </div>
-    </SmoothScroll>
+      </SmoothScroll>
+    </SoundProvider>
   );
 }
 
@@ -201,6 +207,7 @@ function Index() {
 function Hero() {
   const premiumEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
   const base = import.meta.env.BASE_URL;
+  const { playHover, playClick } = useSound();
 
   return (
     <section className="relative h-[100svh] overflow-hidden">
@@ -253,13 +260,26 @@ function Hero() {
             transition={{ duration: 1.0, delay: 0.8, ease: premiumEase }}
             className="mt-10 flex flex-col sm:flex-row justify-center gap-4"
           >
-            <Button asChild size="xl" className="cursor-target premium-animate bg-gradient-to-br from-[#DE638A] to-[#4A3267] text-white border-none shadow-[0_4px_20px_rgba(222,99,138,0.4)] hover:scale-105 hover:shadow-[0_12px_40px_rgba(222,99,138,0.6)] hover:-translate-y-1 transition-all duration-300 px-10 rounded-full font-bold uppercase tracking-wide text-sm relative overflow-hidden group">
+            <Button 
+              asChild 
+              size="xl" 
+              onMouseEnter={() => playHover()}
+              onClick={() => playClick()}
+              className="cursor-target premium-animate bg-gradient-to-br from-[#DE638A] to-[#4A3267] text-white border-none shadow-[0_4px_20px_rgba(222,99,138,0.4)] hover:scale-105 hover:shadow-[0_12px_40px_rgba(222,99,138,0.6)] hover:-translate-y-1 transition-all duration-300 px-10 rounded-full font-bold uppercase tracking-wide text-sm relative overflow-hidden group"
+            >
               <a href="#waitlist">
                 <span className="relative z-10">Join Waitlist</span>
                 <div className="absolute inset-0 bg-white/20 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500" />
               </a>
             </Button>
-            <Button asChild variant="outline" size="xl" className="cursor-target premium-animate bg-white/30 backdrop-blur-md border-white/50 text-[#4A3267] hover:bg-white/50 hover:scale-105 hover:-translate-y-1 transition-all duration-300 px-10 rounded-full font-bold uppercase tracking-wide text-sm">
+            <Button 
+              asChild 
+              variant="outline" 
+              size="xl" 
+              onMouseEnter={() => playHover()}
+              onClick={() => playClick()}
+              className="cursor-target premium-animate bg-white/30 backdrop-blur-md border-white/50 text-[#4A3267] hover:bg-white/50 hover:scale-105 hover:-translate-y-1 transition-all duration-300 px-10 rounded-full font-bold uppercase tracking-wide text-sm"
+            >
               <a href="#about">Explore Event</a>
             </Button>
           </motion.div>
@@ -418,7 +438,64 @@ function Stats() {
   );
 }
 
-/* ---------------- 6. TRACK RECORD ---------------- */
+/* ---------------- 6. PREVIOUS SPONSORS ---------------- */
+function PreviousSponsors() {
+  const base = import.meta.env.BASE_URL;
+  const logos = [
+    { src: `${base}logos/cloudera.svg`, alt: "Cloudera" },
+    { src: `${base}logos/neon.svg`, alt: "Neon", style: { filter: 'brightness(2)' } },
+    { src: `${base}logos/elastic.svg`, alt: "Elastic", style: { filter: 'brightness(1.5)' } },
+    { src: `${base}logos/id8nxt.svg`, alt: "ID8NXT" },
+    { src: `${base}logos/azure.svg`, alt: "Azure" },
+    { src: `${base}logos/polaris.svg`, alt: "Polaris" },
+    { src: `${base}logos/microsoft.svg`, alt: "Microsoft" },
+    { src: `${base}logos/github.svg`, alt: "GitHub", style: { filter: 'brightness(0) invert(1)' } },
+    { src: `${base}logos/docker.svg`, alt: "Docker", style: { filter: 'brightness(1.8)' } },
+    { src: `${base}logos/redis.svg`, alt: "Redis" },
+  ];
+
+  return (
+    <section id="sponsors" className="relative py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 text-center mb-12">
+        <Reveal>
+          <p className="text-sm tracking-widest text-blue-600 uppercase font-bold mb-4">
+            PREVIOUS SPONSORS
+          </p>
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900">
+            Brands that backed earlier <span className="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">TechNexus</span> editions
+          </h2>
+        </Reveal>
+      </div>
+
+      <div className="max-w-[100vw] overflow-hidden">
+        <div className="relative py-10 bg-[#4A3267] rounded-[2rem] mx-4 md:mx-8 shadow-2xl overflow-hidden">
+          {/* Infinite Marquee Loop */}
+          <div className="flex w-max animate-marquee items-center will-change-transform hover:[animation-play-state:paused]">
+            {[...logos, ...logos].map((logo, index) => (
+              <div 
+                key={index} 
+                className="flex-shrink-0 flex items-center justify-center w-[180px] md:w-[240px] px-4"
+              >
+                <img
+                  src={logo.src}
+                  alt={logo.alt || "sponsor"}
+                  className="h-14 md:h-18 w-auto max-w-full object-contain transition-all duration-500 hover:scale-125 hover:brightness-125 hover:drop-shadow-[0_0_25px_rgba(236,72,153,0.8)] cursor-pointer"
+                  style={logo.style}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Edge Fades - Blending with Deep Violet (#4A3267) */}
+          <div className="pointer-events-none absolute left-0 top-0 h-full w-24 md:w-64 bg-gradient-to-r from-[#4A3267] via-[#4A3267]/40 to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-24 md:w-64 bg-gradient-to-l from-[#4A3267] via-[#4A3267]/40 to-transparent z-10" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- 7. TRACK RECORD ---------------- */
 function TrackRecord() {
   const milestones = [
     { date: "2023-2025", title: "24+ Events Hosted", desc: "Consistent, high-quality technical programming across major Indian tech hubs." },
@@ -887,22 +964,24 @@ function FinalCTA() {
 
 function Page() {
   return (
-    <main className="bg-[#F3D9E5] selection:bg-[#DE638A] selection:text-white">
-      <Suspense fallback={null}>
-        <Hero3D />
-      </Suspense>
-      <TargetCursor />
-      
-      <div className="relative">
-        <Hero />
-        <Overview />
-        <About />
-        <Speakers />
-        <WhySponsor />
-        <Packages />
-        <Testimonials />
-        <FinalCTA />
-      </div>
-    </main>
+    <SoundProvider>
+      <main className="bg-[#F3D9E5] selection:bg-[#DE638A] selection:text-white">
+        <Suspense fallback={null}>
+          <Hero3D />
+        </Suspense>
+        <TargetCursor />
+        
+        <div className="relative">
+          <Hero />
+          <Overview />
+          <About />
+          <Speakers />
+          <WhySponsor />
+          <Packages />
+          <Testimonials />
+          <FinalCTA />
+        </div>
+      </main>
+    </SoundProvider>
   );
 }
